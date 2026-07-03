@@ -79,6 +79,7 @@ body {
   background: var(--red);
   clip-path: circle(0%);
   transition: clip-path 0.35s ease-out;
+  pointer-events: none;
 }
 
 .block.active::before {
