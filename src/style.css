@@ -38,8 +38,10 @@ body {
 /* ── Board ── */
 .board {
   display: grid;
-  grid-template-columns: repeat(5, 70px);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
+  width: 100%;
+  max-width: 430px;
   padding: 20px;
   border: 2px solid var(--border);
   border-radius: 8px;
@@ -48,11 +50,12 @@ body {
 
 /* ── Blocks ── */
 .block {
-  width: 70px;
-  height: 70px;
+  aspect-ratio: 1;
   background: var(--blue);
+  border-radius: 6px;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
   transition: transform 0.12s, opacity 0.12s;
 }
 
@@ -76,7 +79,6 @@ body {
   background: var(--red);
   clip-path: circle(0%);
   transition: clip-path 0.35s ease-out;
-  pointer-events: none;
 }
 
 .block.active::before {
