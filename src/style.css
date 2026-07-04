@@ -22,17 +22,85 @@ body {
   padding: 20px;
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 430px;
+}
+
+.hints {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 430px;
+}
+
+.board-row {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.board-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
 #reset {
-  border: none;
-  background: none;
+  border: 2px solid var(--border);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background: var(--bg);
   cursor: pointer;
-  padding: 4px;
+  padding: 8px 10px;
   line-height: 0;
-  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 12px;
 }
 
 #reset:hover {
   background: color-mix(in srgb, var(--border) 10%, transparent);
+}
+
+.hint {
+  color: var(--border);
+  line-height: 0;
+}
+
+.hint-plus {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--border);
+  opacity: 0.5;
+  line-height: 0;
+}
+
+.hint-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--border) 55%, transparent);
+  white-space: nowrap;
+  margin-left: 10px;
+}
+
+.hint-label strong {
+  color: var(--border);
+  font-weight: 600;
 }
 
 /* ── Board ── */
@@ -41,7 +109,6 @@ body {
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   width: 100%;
-  max-width: 430px;
   padding: 20px;
   border: 2px solid var(--border);
   border-radius: 8px;
@@ -56,15 +123,11 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: transform 0.12s, opacity 0.12s;
+  transition: transform 0.12s;
 }
 
 .block:active {
   transform: scale(0.92);
-}
-
-.block:hover {
-  opacity: 0.85;
 }
 
 .block:focus-visible {
@@ -90,5 +153,27 @@ body {
   .board {
     gap: 6px;
     padding: 12px;
+  }
+
+  .toolbar {
+    display: none;
+  }
+
+  .board-row {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .board-col {
+    width: 100%;
+  }
+
+  #reset {
+    margin-top: 0;
+    align-self: center;
+    border: 2px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 6px 14px;
   }
 }

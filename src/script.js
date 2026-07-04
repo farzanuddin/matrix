@@ -4,6 +4,7 @@ const MAX_ACTIVE = 3
 
 // State
 const board = document.getElementById('board')
+const resetBtn = document.getElementById('reset')
 const activeBlocks = [] // queue of clicked indices (oldest first)
 
 // Build the grid — each block is focusable and keyboard accessible
@@ -27,13 +28,44 @@ board.addEventListener('click', (e) => {
   activate(block)
 })
 
-// Keyboard support — Enter or Space triggers a block
-board.addEventListener('keydown', (e) => {
-  if (e.key !== 'Enter' && e.key !== ' ') return
+// Keyboard support — arrow keys to navigate, Enter/Space to activate
+const COLS = 5
+
+document.addEventListener('keydown', (e) => {
   const block = e.target.closest('.block')
-  if (!block) return
-  e.preventDefault()
-  activate(block)
+
+  // If no block is focused yet, jump to the first one on any arrow key
+  if (!block) {
+    if (e.key.startsWith('Arrow')) {
+      e.preventDefault()
+      board.children[0].focus()
+    }
+    return
+  }
+
+  const idx = parseInt(block.dataset.index)
+  const col = idx % COLS
+
+  let targetIdx = null
+
+  switch (e.key) {
+    case 'ArrowUp':    targetIdx = idx - COLS; break
+    case 'ArrowDown':  targetIdx = idx + COLS; break
+    case 'ArrowLeft':  targetIdx = col > 0 ? idx - 1 : null; break
+    case 'ArrowRight': targetIdx = col < COLS - 1 ? idx + 1 : null; break
+    case 'Enter':
+    case ' ':
+      e.preventDefault()
+      activate(block)
+      return
+    default:
+      return
+  }
+
+  if (targetIdx !== null && targetIdx >= 0 && targetIdx < SIZE) {
+    e.preventDefault()
+    board.children[targetIdx].focus()
+  }
 })
 
 function activate(block) {
@@ -50,7 +82,7 @@ function activate(block) {
 }
 
 // Reset — empties the queue and removes all reds
-document.getElementById('reset').addEventListener('click', reset)
+resetBtn.addEventListener('click', reset)
 
 function reset() {
   activeBlocks.length = 0
